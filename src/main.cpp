@@ -9,7 +9,7 @@ int main (int argc, char** argv) {
         HALT
     };
 
-    VM vm(bytecode, MAX_DATA_SIZE);
+    VM vm(bytecode, DATA_MAX_SIZE);
     
     vm.SetTrace(vm, VM_TRUE);
     vm.cpu(vm);
