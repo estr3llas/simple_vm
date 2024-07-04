@@ -3,8 +3,8 @@
 
 #include "./common.hpp"
 
-#define MAX_DATA_SIZE 256
-#define MAX_STACK_SIZE MAX_DATA_SIZE
+#define DATA_MAX_SIZE 256
+#define STACK_MAX_SIZE DATA_MAX_SIZE
 
 #define VM_TRUE true
 #define VM_FALSE false

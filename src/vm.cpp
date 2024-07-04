@@ -13,11 +13,11 @@ VM::VM(const std::vector<int>& bytecode, size_t datasize) :
     ip(VM_ZERO),
     data(
         datasize 
-            != MAX_DATA_SIZE 
+            != DATA_MAX_SIZE 
             ? datasize 
-            : MAX_DATA_SIZE
+            : DATA_MAX_SIZE
         ),
-    stack(MAX_STACK_SIZE) 
+    stack(STACK_MAX_SIZE) 
     {};
     
 void VM::SetTrace(VM &vm, bool value) {
