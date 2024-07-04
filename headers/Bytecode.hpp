@@ -1,7 +1,7 @@
 #ifndef VM_BYTECODE_H
 #define VM_BYTECODE_H
 
-#include "common.hpp"
+#include "./common.hpp"
 
 enum Bytecode {
     IADD = 1,

@@ -1,8 +1,7 @@
-#include "Bytecode.hpp"
-#include "vm.hpp"
+#include "../headers/Bytecode.hpp"
+#include "../headers/vm.hpp"
 
-int main (int argc, char** argv) {
-    Bytecode bc;
+int main (int argc, char** argv) {  
     
     std::vector<int> bytecode = {
         ICONST, 99,

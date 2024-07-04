@@ -1,6 +1,6 @@
-#include "common.hpp"
-#include "vm.hpp"
-#include "Bytecode.hpp"
+#include "../headers/common.hpp"
+#include "../headers/vm.hpp"
+#include "../headers/Bytecode.hpp"
 
 #define STACK_SIZE 256
 
