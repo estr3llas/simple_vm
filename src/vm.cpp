@@ -2,19 +2,22 @@
 #include "../headers/vm.hpp"
 #include "../headers/Bytecode.hpp"
 
-#define STACK_SIZE 256
-
 VM::VM() :
-    ip(0),
+    ip(VM_ZERO),
     sp(sp),
-    fp(0)
+    fp(VM_ZERO)
     {};
 
 VM::VM(const std::vector<int>& bytecode, size_t datasize) :
     code(bytecode),
-    ip(0),
-    data(datasize),
-    stack(STACK_SIZE) 
+    ip(VM_ZERO),
+    data(
+        datasize 
+            != MAX_DATA_SIZE 
+            ? datasize 
+            : MAX_DATA_SIZE
+        ),
+    stack(MAX_STACK_SIZE) 
     {};
     
 void VM::SetTrace(VM &vm, bool value) {

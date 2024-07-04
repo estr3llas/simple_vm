@@ -3,6 +3,14 @@
 
 #include "./common.hpp"
 
+#define MAX_DATA_SIZE 256
+#define MAX_STACK_SIZE MAX_DATA_SIZE
+
+#define VM_TRUE true
+#define VM_FALSE false
+#define VM_ZERO 0
+#define VM_SP_START -1
+
 class VM {
 private:
     std::vector<int32_t> data;
@@ -11,7 +19,7 @@ private:
 
     uint32_t ip;
     //must start below stack, every operation pushes something onto stack (preventing off by one)
-    int32_t sp = -1;
+    int32_t sp = VM_SP_START;
     int32_t fp;
 
     bool trace = false;

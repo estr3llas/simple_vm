@@ -2,6 +2,7 @@
 #define VM_BYTECODE_H
 
 #include "./common.hpp"
+#include "vm.hpp"
 
 enum Bytecode {
     IADD = 1,
@@ -30,12 +31,12 @@ public:
 
     Instruction() : 
         mnemonic(nullptr), 
-        operand(0) 
+        operand(VM_ZERO) 
         {};
 
     Instruction(const char* mnemonic_value) : 
         mnemonic(mnemonic_value), 
-        operand(0) 
+        operand(VM_ZERO) 
         {};
 
     Instruction(const char *mnemonic_value, int operand_arg) : 
