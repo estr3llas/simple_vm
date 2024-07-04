@@ -12,5 +12,5 @@ Then, go to the root directory (`/simple_vm/`) and simply type:
 make
 ```
 
-The final program (.exe) will be located in `/bin/vm.exe`
+The final program (`.exe`) will be located in `/bin/vm.exe`
 
