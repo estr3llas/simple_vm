@@ -74,9 +74,11 @@ int main (int argc, char** argv) {
         HALT                        // 17
     };
 
+    /*
     VM vm_loop(bytecode, MAIN_ADDR, 0);
-    //vm_loop.SetTrace(vm_loop, VM_TRUE);
+    vm_loop.SetTrace(vm_loop, VM_TRUE);
     vm_loop.cpu(vm_loop);
+    */
 
     /*
     VM vm_exception(exception_divide_by_zero, MAIN_ADDR, 0);
