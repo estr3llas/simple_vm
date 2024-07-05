@@ -3,6 +3,8 @@
 #include "../headers/Bytecode.hpp"
 #include "../headers/exception_handler.hpp"
 
+int global_mem[DATA_MAX_SIZE];
+
 VM::VM() :
     ip(VM_ZERO),
     sp(sp),
@@ -55,7 +57,7 @@ void VM::disassemble(int32_t opcode) {
 void VM::cpu(VM &vm) {
     
     int32_t operand;
-    int32_t opcode, a, b;
+    int32_t opcode, a, b, addr;
     ExceptionHandler _exception_handler;
 
     while(ip < code.size()) {
@@ -66,6 +68,20 @@ void VM::cpu(VM &vm) {
         ip++;
         switch (opcode)
         {
+        case GLOAD:
+            addr = code[ip];
+            ip++;
+            operand = global_mem[addr];
+            sp++;
+            stack[sp] = operand;
+            break;
+        case GSTORE:
+            operand = stack[sp];
+            sp--;
+            addr = code[ip];
+            ip++;
+            global_mem[addr] = operand;
+            break;
         case IADD:
             b = stack[sp--];
             a = stack[sp--];

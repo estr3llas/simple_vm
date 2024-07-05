@@ -5,8 +5,8 @@ int main (int argc, char** argv) {
     
     std::vector<int> bytecode = {
         ICONST, 2,
-        ICONST, 2,
-        IDIV,
+        GSTORE, 0,
+        GLOAD, 0,
         PRINT,
         HALT
     };

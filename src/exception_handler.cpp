@@ -22,7 +22,7 @@ void ExceptionHandler::exceptionHandler(uint32_t exception_code, int32_t opcode)
             EH_exit();
             break;
         case EXCEPTION_UNKNOWN_OPCODE:
-            fprintf(stderr, "[-] EXCEPTION_UNKNOWN_OPCODE: Unknown ocpode: %d\n", opcode);
+            fprintf(stderr, "[-] EXCEPTION_UNKNOWN_OPCODE: Unknown opcode: %d\n", opcode);
             EH_exit();
             break;
         default:
