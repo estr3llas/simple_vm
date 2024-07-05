@@ -17,6 +17,8 @@ private:
     std::vector<int32_t> code;
     std::vector<int32_t> stack;
 
+    std::string bc_filename;
+
     uint32_t ip;
     //must start below stack, every operation pushes something onto stack (preventing off by one)
     int32_t sp = VM_SP_START;
@@ -32,6 +34,11 @@ public:
     void SetTrace(VM &vm, bool value);
     void disassemble(int32_t opcode);
     void vm_print(int32_t arg);
+
+    uint32_t get_ip();
+
+    void set_bytecode_filename(const std::string &filename);
+    const std::string &get_bytecode_filename();
 
 };
 

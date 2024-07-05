@@ -31,6 +31,18 @@ void VM::vm_print(int32_t arg){
     printf("%d\n", arg);
 }
 
+uint32_t VM::get_ip() {
+    return ip;
+}
+
+void VM::set_bytecode_filename(const std::string &filename) {
+    bc_filename = filename;
+}
+
+const std::string& VM::get_bytecode_filename() {
+    return bc_filename;
+}
+
 void VM::disassemble(int32_t opcode) {
 
     if (ip >= code.size()) return;
@@ -153,7 +165,7 @@ void VM::cpu(VM &vm) {
             b = stack[sp--];
             a = stack[sp--];
             if(b == 0) {
-                _exception_handler.Handler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
+                _exception_handler.Handler(vm, _exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
             break;
@@ -169,7 +181,7 @@ void VM::cpu(VM &vm) {
         case HALT:
             return;
         default:
-            _exception_handler.Handler(_exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
+            _exception_handler.Handler(vm, _exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
             return;
         }
     }

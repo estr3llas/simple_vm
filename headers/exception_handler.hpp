@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include "vm.hpp"
 
-class ExceptionHandler{
+class ExceptionHandler : public VM{
 public:
 
     enum exception_codes {
@@ -12,7 +12,7 @@ public:
         EXCEPTION_UNKNOWN_OPCODE = 2,
     };
 
-    void Handler(uint32_t exception_code, int32_t opcode);
+    void Handler(VM &vm, uint32_t exception_code, int32_t opcode);
 
     void EH_exit();
     void EH_abort();
