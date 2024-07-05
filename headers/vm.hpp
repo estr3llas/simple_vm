@@ -3,7 +3,7 @@
 
 #include "./common.hpp"
 
-#define DATA_MAX_SIZE 256
+#define DATA_MAX_SIZE 1000
 #define STACK_MAX_SIZE DATA_MAX_SIZE
 
 #define VM_TRUE true
@@ -26,11 +26,12 @@ private:
 public:
 
     VM();
-    VM(const std::vector<int>& bytecode, size_t datasize);
+    VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize);
 
     void cpu(VM &vm);
     void SetTrace(VM &vm, bool value);
     void disassemble(int32_t opcode);
+    void vm_print(int32_t arg);
 
 };
 

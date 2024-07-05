@@ -11,9 +11,9 @@ VM::VM() :
     fp(VM_ZERO)
     {};
 
-VM::VM(const std::vector<int>& bytecode, size_t datasize) :
+VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) :
     code(bytecode),
-    ip(VM_ZERO),
+    ip(addr_of_main),
     data(
         datasize 
             != DATA_MAX_SIZE 
@@ -25,6 +25,10 @@ VM::VM(const std::vector<int>& bytecode, size_t datasize) :
     
 void VM::SetTrace(VM &vm, bool value) {
     vm.trace = value;
+}
+
+void VM::vm_print(int32_t arg){
+    printf("%d\n", arg);
 }
 
 void VM::disassemble(int32_t opcode) {
@@ -60,7 +64,10 @@ void VM::disassemble(int32_t opcode) {
 void VM::cpu(VM &vm) {
     
     int32_t operand;
-    int32_t opcode, a, b, addr;
+    int32_t opcode, a, b, addr, offset;
+
+    //instruction-specific variables
+    int32_t nargs, rvalue;
     ExceptionHandler _exception_handler;
 
     while(ip < code.size()) {
@@ -84,6 +91,48 @@ void VM::cpu(VM &vm) {
             addr = code[ip];
             ip++;
             global_mem[addr] = operand;
+            break;
+        case CALL:
+            addr = code[ip++];
+            nargs = code[ip++];
+            stack[++sp] = nargs;
+            stack[++sp] = fp;
+            stack[++sp] = ip;
+            fp = sp;
+            ip = addr;
+            break;
+        case RET:
+            rvalue = stack[sp--];
+            sp = fp;
+            ip = stack[sp--];
+            fp = stack[sp--];
+            nargs = stack[sp--];
+            sp -= nargs;
+            stack[++sp] = rvalue;
+            break;
+        case LOAD:
+            offset = code[ip++];
+            stack[++sp] = stack[fp+offset];
+            break;
+        case IEQ:
+            b = stack[sp--];
+            a = stack[sp--];
+            stack[++sp] = (a == b) ? VM_TRUE : VM_FALSE;
+            break;
+        case ILT:
+            b = stack[sp--];
+            a = stack[sp--];
+            stack[++sp] = (a < b) ? VM_TRUE : VM_FALSE;
+            break;
+        case BR:
+            ip = code[ip++];
+            break;
+        case BRT:
+            addr = code[ip++];
+            if (stack[sp--] == VM_TRUE) ip = addr;
+        case BRF:
+            addr = code[ip++];
+            if (stack[sp--] == VM_FALSE) ip = addr;
             break;
         case IADD:
             b = stack[sp--];
@@ -109,15 +158,13 @@ void VM::cpu(VM &vm) {
             stack[++sp] = a / b;
             break;
         case ICONST:
-            operand = code[ip];
-            ip++;
-            sp++;
-            stack[sp] = operand;
+            stack[++sp] = code[ip++];
+            break;
+        case POP:
+            --sp;
             break;
         case PRINT:
-            operand = stack[sp];
-            sp--;
-            printf("%d\n", operand);
+            vm_print(stack[sp--]);
             break;
         case HALT:
             return;

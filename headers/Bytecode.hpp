@@ -21,7 +21,9 @@ enum Bytecode {
     GSTORE = 14,
     PRINT = 15,
     POP = 16,
-    HALT = 17
+    HALT = 17,
+    CALL = 18,
+    RET = 19
 };
 
 class Instruction {
@@ -74,7 +76,9 @@ namespace {
         Instruction("GSTORE", 1),
         Instruction("PRINT"),
         Instruction("POP"),
-        Instruction("HALT")
+        Instruction("HALT"),
+        Instruction("CALL", 1),
+        Instruction("RET")
     };
 }
 
