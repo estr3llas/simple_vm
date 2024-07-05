@@ -28,13 +28,27 @@ void VM::disassemble(int32_t opcode) {
     Instruction instr = opcodes[opcode];
     printf("%04d: %s", ip, instr.getMnemonic());
 
+    //print operands
     if(instr.getOperand() == 1){
         printf(" %d", code[ip+1]);
     } else if(instr.getOperand() == 2) {
         printf(" %d, %d", code[ip+1], code[ip+2]);
     }
-    
-    printf("\n");
+
+    //print current stack
+    if (sp == -1) {
+        printf("\t\t[ ]\n");
+    } else {
+        printf("\t\t");
+        for (int i = 0; i <= sp; ++i) {
+            printf("[%d]", stack[i]);
+            if (i < sp) {
+                printf(", ");
+            }
+        }
+
+        printf("\n");
+    }
 }
 
 void VM::cpu(VM &vm) {
