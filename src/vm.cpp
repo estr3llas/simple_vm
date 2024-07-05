@@ -1,6 +1,7 @@
 #include "../headers/common.hpp"
 #include "../headers/vm.hpp"
 #include "../headers/Bytecode.hpp"
+#include "../headers/exception_handler.hpp"
 
 VM::VM() :
     ip(VM_ZERO),
@@ -22,31 +23,6 @@ VM::VM(const std::vector<int>& bytecode, size_t datasize) :
     
 void VM::SetTrace(VM &vm, bool value) {
     vm.trace = value;
-}
-
-void VM::vmExit(){
-    exit(-1);
-}
-
-void VM::exceptionHandler(uint32_t exception_code, int32_t opcode) {
-
-    if(exception_code == VM_ZERO) {
-        return;
-    }
-
-    switch(exception_code){
-        case EXCEPTION_DIVIDE_BY_ZERO:
-            fprintf(stderr, "[-] EXCEPTION_DIVIDE_BY_ZERO: Operation not permitted.\n");
-            vmExit();
-            break;
-        case EXCEPTION_UNKNOWN_OPCODE:
-            fprintf(stderr, "[-] EXCEPTION_UNKNOWN_OPCODE: Unknown ocpode: %d\n", opcode);
-            vmExit();
-            break;
-        default:
-            return;
-    }
-
 }
 
 void VM::disassemble(int32_t opcode) {
@@ -80,6 +56,7 @@ void VM::cpu(VM &vm) {
     
     int32_t operand;
     int32_t opcode, a, b;
+    ExceptionHandler _exception_handler;
 
     while(ip < code.size()) {
         opcode = code[ip];
@@ -108,7 +85,7 @@ void VM::cpu(VM &vm) {
             b = stack[sp--];
             a = stack[sp--];
             if(b == 0) {
-                exceptionHandler(EXCEPTION_DIVIDE_BY_ZERO, opcode);
+                _exception_handler.exceptionHandler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
             break;
@@ -126,7 +103,7 @@ void VM::cpu(VM &vm) {
         case HALT:
             return;
         default:
-            exceptionHandler(EXCEPTION_UNKNOWN_OPCODE, opcode);
+            _exception_handler.exceptionHandler(_exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
             return;
         }
     }

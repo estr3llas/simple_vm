@@ -4,8 +4,8 @@
 int main (int argc, char** argv) {  
     
     std::vector<int> bytecode = {
-        ICONST, 1,
-        ICONST, 0,
+        ICONST, 2,
+        ICONST, 2,
         IDIV,
         PRINT,
         HALT
