@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include "vm.hpp"
 
-class ExceptionHandler : public VM {
+class ExceptionHandler{
 public:
 
     enum exception_codes {

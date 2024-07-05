@@ -3,7 +3,7 @@
 #include "../headers/Bytecode.hpp"
 #include "../headers/exception_handler.hpp"
 
-int global_mem[DATA_MAX_SIZE];
+int_fast32_t global_mem[DATA_MAX_SIZE];
 
 VM::VM() :
     ip(VM_ZERO),
@@ -28,6 +28,9 @@ void VM::SetTrace(VM &vm, bool value) {
 }
 
 void VM::disassemble(int32_t opcode) {
+
+    if (ip >= code.size()) return;
+
     Instruction instr = opcodes[opcode];
     printf("%04d: %s", ip, instr.getMnemonic());
 

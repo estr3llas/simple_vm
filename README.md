@@ -14,3 +14,7 @@ make
 
 The final program (`.exe`) will be located in `/bin/vm.exe`
 
+# TODO
+
+CALL, RET
+
