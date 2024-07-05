@@ -10,7 +10,7 @@ void ExceptionHandler::EH_abort(){
     abort();
 }
 
-void ExceptionHandler::exceptionHandler(uint32_t exception_code, int32_t opcode) {
+void ExceptionHandler::Handler(uint32_t exception_code, int32_t opcode) {
 
     if(exception_code == VM_ZERO) {
         return;

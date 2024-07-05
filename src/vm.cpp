@@ -101,7 +101,7 @@ void VM::cpu(VM &vm) {
             b = stack[sp--];
             a = stack[sp--];
             if(b == 0) {
-                _exception_handler.exceptionHandler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
+                _exception_handler.Handler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
             break;
@@ -119,7 +119,7 @@ void VM::cpu(VM &vm) {
         case HALT:
             return;
         default:
-            _exception_handler.exceptionHandler(_exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
+            _exception_handler.Handler(_exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
             return;
         }
     }
