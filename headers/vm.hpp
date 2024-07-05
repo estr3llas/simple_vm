@@ -12,7 +12,8 @@
 #define VM_SP_START -1
 
 enum exception_codes {
-    EXCEPTION_DIVIDE_BY_ZERO = 1
+    EXCEPTION_DIVIDE_BY_ZERO = 1,
+    EXCEPTION_UNKNOWN_OPCODE = 2,
 };
 
 class VM {
@@ -36,7 +37,7 @@ public:
     void SetTrace(VM &vm, bool value);
     void disassemble(int32_t opcode);
 
-    void exceptionHandler(uint32_t exception_code);
+    void exceptionHandler(uint32_t exception_code, int32_t opcode);
     void vmExit();
 };
 

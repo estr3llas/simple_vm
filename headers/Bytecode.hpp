@@ -35,14 +35,14 @@ public:
         operand(VM_ZERO) 
         {};
 
-    Instruction(const char* mnemonic_value) : 
-        mnemonic(mnemonic_value), 
+    Instruction(const char* _mnemonic) : 
+        mnemonic(_mnemonic), 
         operand(VM_ZERO) 
         {};
 
-    Instruction(const char *mnemonic_value, int operand_arg) : 
-        mnemonic(mnemonic_value), 
-        operand(operand_arg) 
+    Instruction(const char* _mnemonic, int _operand) : 
+        mnemonic(_mnemonic), 
+        operand(_operand) 
         {};
     
     const char* getMnemonic(){
@@ -55,13 +55,13 @@ public:
 
 };
 
-
 namespace {
     Instruction opcodes[] = {
         Instruction(""),
         Instruction("IADD"),
         Instruction("ISUB"),
         Instruction("IMUL"),
+        Instruction("IDIV"),
         Instruction("ILT"),
         Instruction("IEQ"),
         Instruction("BR", 1),

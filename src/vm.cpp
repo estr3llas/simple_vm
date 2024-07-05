@@ -28,7 +28,7 @@ void VM::vmExit(){
     exit(-1);
 }
 
-void VM::exceptionHandler(uint32_t exception_code) {
+void VM::exceptionHandler(uint32_t exception_code, int32_t opcode) {
 
     if(exception_code == VM_ZERO) {
         return;
@@ -37,6 +37,10 @@ void VM::exceptionHandler(uint32_t exception_code) {
     switch(exception_code){
         case EXCEPTION_DIVIDE_BY_ZERO:
             fprintf(stderr, "[-] EXCEPTION_DIVIDE_BY_ZERO: Operation not permitted.\n");
+            vmExit();
+            break;
+        case EXCEPTION_UNKNOWN_OPCODE:
+            fprintf(stderr, "[-] EXCEPTION_UNKNOWN_OPCODE: Unknown ocpode: %d\n", opcode);
             vmExit();
             break;
         default:
@@ -104,7 +108,7 @@ void VM::cpu(VM &vm) {
             b = stack[sp--];
             a = stack[sp--];
             if(b == 0) {
-                exceptionHandler(EXCEPTION_DIVIDE_BY_ZERO);
+                exceptionHandler(EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
             break;
@@ -120,6 +124,9 @@ void VM::cpu(VM &vm) {
             printf("%d\n", operand);
             break;
         case HALT:
+            return;
+        default:
+            exceptionHandler(EXCEPTION_UNKNOWN_OPCODE, opcode);
             return;
         }
     }

@@ -13,6 +13,6 @@ int main (int argc, char** argv) {
 
     VM vm(bytecode, DATA_MAX_SIZE);
     
-    //vm.SetTrace(vm, VM_TRUE);
+    vm.SetTrace(vm, VM_TRUE);
     vm.cpu(vm);
 }
