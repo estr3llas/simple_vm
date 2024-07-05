@@ -1,6 +1,8 @@
 # simple_vm
 
-A simple Virtual Machine, which accepts an arbitrary set of bytecodes and execute operations based on them.
+A simple bytecode Virtual Machine.
+
+Version: `0.0.1`
 
 # Compilation
 
@@ -16,5 +18,6 @@ The final program (`.exe`) will be located in `/bin/vm.exe`
 
 # TODO
 
-CALL, RET
-
+INC, DEC
+More examples
+Bitwise operations
