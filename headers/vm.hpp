@@ -11,6 +11,10 @@
 #define VM_ZERO 0
 #define VM_SP_START -1
 
+enum exception_codes {
+    EXCEPTION_DIVIDE_BY_ZERO = 1
+};
+
 class VM {
 private:
     std::vector<int32_t> data;
@@ -31,6 +35,9 @@ public:
     void cpu(VM &vm);
     void SetTrace(VM &vm, bool value);
     void disassemble(int32_t opcode);
+
+    void exceptionHandler(uint32_t exception_code);
+    void vmExit();
 };
 
 #endif

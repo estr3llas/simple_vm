@@ -4,13 +4,15 @@
 int main (int argc, char** argv) {  
     
     std::vector<int> bytecode = {
-        ICONST, 99,
+        ICONST, 1,
+        ICONST, 0,
+        IDIV,
         PRINT,
         HALT
     };
 
     VM vm(bytecode, DATA_MAX_SIZE);
     
-    vm.SetTrace(vm, VM_TRUE);
+    //vm.SetTrace(vm, VM_TRUE);
     vm.cpu(vm);
 }

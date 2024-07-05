@@ -8,19 +8,20 @@ enum Bytecode {
     IADD = 1,
     ISUB = 2,
     IMUL = 3,
-    ILT = 4,
-    IEQ = 5,
-    BR = 6,
-    BRT = 7,
-    BRF = 8,
-    ICONST = 9,
-    LOAD = 10,
-    GLOAD = 11,
-    STORE = 12,
-    GSTORE = 13,
-    PRINT = 14,
-    POP = 15,
-    HALT = 16
+    IDIV = 4,
+    ILT = 5,
+    IEQ = 6,
+    BR = 7,
+    BRT = 8,
+    BRF = 9,
+    ICONST = 10,
+    LOAD = 11,
+    GLOAD = 12,
+    STORE = 13,
+    GSTORE = 14,
+    PRINT = 15,
+    POP = 16,
+    HALT = 17
 };
 
 class Instruction {

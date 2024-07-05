@@ -24,6 +24,27 @@ void VM::SetTrace(VM &vm, bool value) {
     vm.trace = value;
 }
 
+void VM::vmExit(){
+    exit(-1);
+}
+
+void VM::exceptionHandler(uint32_t exception_code) {
+
+    if(exception_code == VM_ZERO) {
+        return;
+    }
+
+    switch(exception_code){
+        case EXCEPTION_DIVIDE_BY_ZERO:
+            fprintf(stderr, "[-] EXCEPTION_DIVIDE_BY_ZERO: Operation not permitted.\n");
+            vmExit();
+            break;
+        default:
+            return;
+    }
+
+}
+
 void VM::disassemble(int32_t opcode) {
     Instruction instr = opcodes[opcode];
     printf("%04d: %s", ip, instr.getMnemonic());
@@ -54,7 +75,7 @@ void VM::disassemble(int32_t opcode) {
 void VM::cpu(VM &vm) {
     
     int32_t operand;
-    int32_t opcode;
+    int32_t opcode, a, b;
 
     while(ip < code.size()) {
         opcode = code[ip];
@@ -64,6 +85,29 @@ void VM::cpu(VM &vm) {
         ip++;
         switch (opcode)
         {
+        case IADD:
+            b = stack[sp--];
+            a = stack[sp--];
+            stack[++sp] = a + b;
+            break;
+        case ISUB:
+            b = stack[sp--];
+            a = stack[sp--];
+            stack[++sp] = a - b;
+            break;
+        case IMUL:
+            b = stack[sp--];
+            a = stack[sp--];
+            stack[++sp] = a * b;
+            break;
+        case IDIV:
+            b = stack[sp--];
+            a = stack[sp--];
+            if(b == 0) {
+                exceptionHandler(EXCEPTION_DIVIDE_BY_ZERO);
+            }
+            stack[++sp] = a / b;
+            break;
         case ICONST:
             operand = code[ip];
             ip++;
