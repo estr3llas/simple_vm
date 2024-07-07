@@ -5,7 +5,7 @@
 
 int main (int argc, char** argv) {  
     
-    std::vector<int> bytecode = {
+    std::vector<int> bc_loop = {
 	// .GLOBALS 2; N, I
 	// N = 10						ADDRESS
 			ICONST, 10,				// 0
@@ -28,7 +28,7 @@ int main (int argc, char** argv) {
 			HALT					// 24
     };
 
-    std::vector<int> exception_divide_by_zero = {
+    std::vector<int> bc_exception_divide_by_zero = {
     // TRIGGER EXCEPTION
     // STORE 1 ON GLOBAL MEMORY    
         ICONST, 1,                  // 0
@@ -46,7 +46,7 @@ int main (int argc, char** argv) {
         HALT                        // 13
     };
 
-    std::vector<int> math = {
+    std::vector<int> bc_math = {
     // MATH DEMONSTRATION
     // PUSH 1, 2
         ICONST, 1,                  // 0
@@ -75,20 +75,20 @@ int main (int argc, char** argv) {
     };
 
     /*
-    VM vm_loop(bytecode, MAIN_ADDR, 0);
+    VM vm_loop(bc_loop, MAIN_ADDR, 0);
     vm_loop.set_bytecode_filename(__FILE__);
     vm_loop.SetTrace(vm_loop, VM_TRUE);
     vm_loop.cpu(vm_loop);
     */
 
     
-    VM vm_exception(exception_divide_by_zero, MAIN_ADDR, 0);
+    VM vm_exception(bc_exception_divide_by_zero, MAIN_ADDR, 0);
     vm_exception.set_bytecode_filename(__FILE__);
     vm_exception.SetTrace(vm_exception, VM_TRUE);
     vm_exception.cpu(vm_exception);
     
     
-    VM vm_math(math, 0, 0);
+    VM vm_math(bc_math, 0, 0);
     vm_math.set_bytecode_filename(__FILE__);
     vm_math.SetTrace(vm_math, VM_TRUE);
     vm_math.cpu(vm_math);
