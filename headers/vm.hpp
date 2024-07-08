@@ -16,17 +16,20 @@ class Context {
 private:
 
     Context* prev;
-    int32_t return_ip;
-    std::vector<int32_t> locals;
+    uint32_t return_ip;
 public:
+
+    std::vector<int32_t> locals;
+
     Context() :
     return_ip(0)
     {}
     ;
 
-    Context(Context* _prev, int32_t _return_ip) :
+    Context(Context* _prev, uint32_t _return_ip, int32_t number_of_locals) :
     prev(_prev),
-    return_ip(_return_ip)
+    return_ip(_return_ip),
+    locals(number_of_locals)
     {}
     ;
 
@@ -36,6 +39,10 @@ public:
 
     int32_t getReturnIp() {
         return return_ip;
+    }
+
+    Context* getPrev() {
+        return prev;
     }
 };
 
@@ -67,7 +74,7 @@ public:
 
     uint32_t get_ip();
 
-    void SetTrace(VM &vm, bool value);
+    void SetTrace(bool value);
     void set_bytecode_filename(const std::string &filename);
     const std::string &get_bytecode_filename();
 

@@ -74,16 +74,45 @@ int main (int argc, char** argv) {
         HALT                        // 17
     };
 
+    const int FACTORIAL_ADDRESS = 0;
+    std::vector<int32_t> factorial = {
+//.def factorial: ARGS=1, LOCALS=0	ADDRESS
+//	IF N < 2 RETURN 1
+	LOAD, 0,                // 0
+	ICONST, 2,              // 2
+	ILT,                    // 4
+	BRF, 10,                // 5
+	ICONST, 1,              // 7
+	RET,                    // 9
+//CONT:
+//	RETURN N * FACT(N-1)
+	LOAD, 0,                // 10
+	LOAD, 0,                // 12
+	ICONST, 1,              // 14
+	ISUB,                   // 16
+	CALL, FACTORIAL_ADDRESS, 1, 0,    // 17
+	IMUL,                   // 21
+	RET,                    // 22
+//.DEF MAIN: ARGS=0, LOCALS=0
+// PRINT FACT(1)
+	ICONST, 5,              // 23    <-- MAIN METHOD!
+	CALL, FACTORIAL_ADDRESS, 1, 0,    // 25
+	PRINT,                  // 29
+	HALT                    // 30
+};
+
+    VM vm_fact(factorial, 23, 0);
+    vm_fact.SetTrace(VM_TRUE);
+    vm_fact.execVM(23);
+
     /*
     VM vm_loop(bc_loop, MAIN_ADDR, 0);
     vm_loop.set_bytecode_filename(__FILE__);
     vm_loop.SetTrace(vm_loop, VM_TRUE);
     vm_loop.cpu();
-    */
 
     
     VM vm_exception(bc_exception_divide_by_zero, MAIN_ADDR, 0);
-
     vm_exception.set_bytecode_filename(__FILE__);
     vm_exception.SetTrace(vm_exception, VM_TRUE);
     vm_exception.execVM(MAIN_ADDR);
@@ -93,4 +122,5 @@ int main (int argc, char** argv) {
     vm_math.set_bytecode_filename(__FILE__);
     vm_math.SetTrace(vm_math, VM_TRUE);
     vm_math.execVM(MAIN_ADDR);
+    */
 }

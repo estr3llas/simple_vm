@@ -77,7 +77,7 @@ namespace {
         Instruction("PRINT"),
         Instruction("POP"),
         Instruction("HALT"),
-        Instruction("CALL", 1),
+        Instruction("CALL", 3),
         Instruction("RET")
     };
 }

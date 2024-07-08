@@ -9,7 +9,7 @@ VM::VM() :
     ip(VM_ZERO),
     sp(sp),
     fp(VM_ZERO),
-    ctx(Context(nullptr, 0))
+    ctx(Context(nullptr, 0, LOCALS_MAX_SIZE))
     {};
 
 VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) :
@@ -21,11 +21,12 @@ VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) 
             ? datasize 
             : DATA_MAX_SIZE
         ),
-    stack(STACK_MAX_SIZE)
+    stack(STACK_MAX_SIZE),
+    ctx(Context(nullptr, 0, LOCALS_MAX_SIZE))
     {};
     
-void VM::SetTrace(VM &vm, bool value) {
-    vm.trace = value;
+void VM::SetTrace(bool value) {
+    trace = value;
 }
 
 void VM::vm_print(int32_t arg){
@@ -37,6 +38,8 @@ uint32_t VM::get_ip() {
 }
 
 void VM::set_bytecode_filename(const std::string &filename) {
+    if(filename.empty()) bc_filename = nullptr;
+
     bc_filename = filename;
 }
 
@@ -85,6 +88,7 @@ void VM::cpu() {
     int32_t operand;
     int32_t opcode, a, b, addr, offset;
 
+    int32_t first_arg;
     //instruction-specific variables
     int32_t nargs, rvalue;
     ExceptionHandler _exception_handler;
@@ -114,20 +118,17 @@ void VM::cpu() {
         case CALL:
             addr = code[ip++];
             nargs = code[ip++];
-            stack[++sp] = nargs;
-            stack[++sp] = fp;
-            stack[++sp] = ip;
-            fp = sp;
+            ctx = Context(&ctx, ip, LOCALS_MAX_SIZE);
+            first_arg = sp - (nargs + 1);
+            for(int8_t i = 0; i < nargs; i++) {
+                ctx.locals[i] = stack[first_arg+i];
+            }
+            sp -= nargs;
             ip = addr;
             break;
         case RET:
-            rvalue = stack[sp--];
-            sp = fp;
-            ip = stack[sp--];
-            fp = stack[sp--];
-            nargs = stack[sp--];
-            sp -= nargs;
-            stack[++sp] = rvalue;
+            ip = ctx.getReturnIp();
+            ctx = *ctx.getPrev();
             break;
         case LOAD:
             offset = code[ip++];
