@@ -78,18 +78,19 @@ int main (int argc, char** argv) {
     VM vm_loop(bc_loop, MAIN_ADDR, 0);
     vm_loop.set_bytecode_filename(__FILE__);
     vm_loop.SetTrace(vm_loop, VM_TRUE);
-    vm_loop.cpu(vm_loop);
+    vm_loop.cpu();
     */
 
     
     VM vm_exception(bc_exception_divide_by_zero, MAIN_ADDR, 0);
+
     vm_exception.set_bytecode_filename(__FILE__);
     vm_exception.SetTrace(vm_exception, VM_TRUE);
-    vm_exception.cpu(vm_exception);
+    vm_exception.execVM(MAIN_ADDR);
     
     
     VM vm_math(bc_math, 0, 0);
     vm_math.set_bytecode_filename(__FILE__);
     vm_math.SetTrace(vm_math, VM_TRUE);
-    vm_math.cpu(vm_math);
+    vm_math.execVM(MAIN_ADDR);
 }

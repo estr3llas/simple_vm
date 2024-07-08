@@ -8,7 +8,8 @@ int_fast32_t global_mem[DATA_MAX_SIZE];
 VM::VM() :
     ip(VM_ZERO),
     sp(sp),
-    fp(VM_ZERO)
+    fp(VM_ZERO),
+    ctx(Context(nullptr, 0))
     {};
 
 VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) :
@@ -20,7 +21,7 @@ VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) 
             ? datasize 
             : DATA_MAX_SIZE
         ),
-    stack(STACK_MAX_SIZE) 
+    stack(STACK_MAX_SIZE)
     {};
     
 void VM::SetTrace(VM &vm, bool value) {
@@ -73,7 +74,13 @@ void VM::disassemble(int32_t opcode) {
     }
 }
 
-void VM::cpu(VM &vm) {
+void VM::execVM(int32_t entrypoint) {
+    ip = entrypoint;
+    ctx = Context();
+    cpu();
+}
+
+void VM::cpu() {
     
     int32_t operand;
     int32_t opcode, a, b, addr, offset;
@@ -84,8 +91,8 @@ void VM::cpu(VM &vm) {
 
     while(ip < code.size()) {
         opcode = code[ip];
-        if(vm.trace) {
-            vm.disassemble(opcode);
+        if(trace) {
+            disassemble(opcode);
         }
         ip++;
         switch (opcode)
@@ -165,7 +172,7 @@ void VM::cpu(VM &vm) {
             b = stack[sp--];
             a = stack[sp--];
             if(b == 0) {
-                _exception_handler.Handler(vm, _exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
+                _exception_handler.Handler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
             break;
@@ -181,7 +188,7 @@ void VM::cpu(VM &vm) {
         case HALT:
             return;
         default:
-            _exception_handler.Handler(vm, _exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
+            _exception_handler.Handler(_exception_handler.EXCEPTION_UNKNOWN_OPCODE, opcode);
             return;
         }
     }
