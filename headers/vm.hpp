@@ -5,17 +5,47 @@
 
 #define DATA_MAX_SIZE 1000
 #define STACK_MAX_SIZE DATA_MAX_SIZE
+#define LOCALS_MAX_SIZE 256
 
 #define VM_TRUE true
 #define VM_FALSE false
 #define VM_ZERO 0
 #define VM_SP_START -1
 
+class Context {
+private:
+
+    Context prev();
+    int32_t return_ip;
+    std::vector<int32_t> locals;
+public:
+    Context() :
+    return_ip(0)
+    {}
+    ;
+
+    Context(int32_t _return_ip, std::vector<int32_t>& _locals) :
+    return_ip(_return_ip),
+    locals(_locals)
+    {}
+    ;
+
+    std::vector<int32_t>& getLocals() {
+        return locals;
+    }
+
+    int32_t getReturnIp() {
+        return return_ip;
+    }
+};
+
 class VM {
 private:
     std::vector<int32_t> data;
     std::vector<int32_t> code;
     std::vector<int32_t> stack;
+
+    Context ctx;
 
     std::string bc_filename;
 
@@ -39,6 +69,10 @@ public:
 
     void set_bytecode_filename(const std::string &filename);
     const std::string &get_bytecode_filename();
+
+    Context& getCtx(){
+        return ctx;
+    }
 
 };
 
