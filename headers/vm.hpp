@@ -67,18 +67,18 @@ public:
     VM();
     VM(const std::vector<int>& bytecode, int32_t entrypoint, size_t datasize);
 
-    void execVM();
-    void cpu();
-    void disassemble(int32_t opcode);
-    void vm_print(int32_t arg);
+    void VMExec();
+    void Cpu();
+    void Disassemble(int32_t opcode);
+    void VMPrint(int32_t arg);
 
     uint32_t get_ip();
 
     void SetTrace(bool value);
-    void set_bytecode_filename(const std::string &filename);
-    const std::string &get_bytecode_filename();
+    void SetBcFilename(const std::string &filename);
+    const std::string &GetBcFilename();
 
-    Context& getCtx(){
+    Context& GetCtx(){
         return ctx;
     }
 

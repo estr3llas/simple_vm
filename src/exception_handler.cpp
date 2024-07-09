@@ -10,13 +10,19 @@ void ExceptionHandler::EH_abort(){
     abort();
 }
 
+bool ExceptionHandler::CheckForArithmeticOverflow(int32_t operand1, int32_t operand2, int32_t opcode) {
+    if((operand2 > 0 && operand1 > (INT32_MAX - operand2)) || (operand2 < 0 && operand1 < (INT32_MAX - operand2))) {
+        Handler(EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
+    }
+}
+
 void ExceptionHandler::Handler(uint32_t exception_code, int32_t opcode) {
 
     if(exception_code == VM_ZERO) {
         return;
     }
 
-    const std::string &filename = get_bytecode_filename();
+    const std::string &filename = GetBcFilename();
 
     switch(exception_code){
         case EXCEPTION_DIVIDE_BY_ZERO:

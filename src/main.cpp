@@ -115,7 +115,7 @@ int main (int argc, char** argv) {
 
     VM vm_test(test_bc, 0, 0);
     vm_test.SetTrace(VM_TRUE);
-    vm_test.execVM();
+    vm_test.VMExec();
 
     /*
     VM vm_fact(factorial, 23, 0);

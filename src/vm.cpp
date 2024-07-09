@@ -29,7 +29,7 @@ void VM::SetTrace(bool value) {
     trace = value;
 }
 
-void VM::vm_print(int32_t arg){
+void VM::VMPrint(int32_t arg){
     printf("%d\n", arg);
 }
 
@@ -37,17 +37,17 @@ uint32_t VM::get_ip() {
     return ip;
 }
 
-void VM::set_bytecode_filename(const std::string &filename) {
+void VM::SetBcFilename(const std::string &filename) {
     if(filename.empty()) bc_filename = nullptr;
 
     bc_filename = filename;
 }
 
-const std::string& VM::get_bytecode_filename() {
+const std::string& VM::GetBcFilename() {
     return bc_filename;
 }
 
-void VM::disassemble(int32_t opcode) {
+void VM::Disassemble(int32_t opcode) {
 
     if (ip >= code.size()) return;
 
@@ -89,24 +89,26 @@ void VM::disassemble(int32_t opcode) {
     }
 }
 
-void VM::execVM() {
+void VM::VMExec() {
     ctx = Context();
-    cpu();
+    Cpu();
 }
 
-void VM::cpu() {
+void VM::Cpu() {
     
     int32_t operand, opcode, a, b, addr, offset;
     int32_t first_arg;
     int32_t nargs, locals;
     ExceptionHandler _exception_handler;
 
+    bool arithmetic_overflow;
+
     std::vector<Context> call_stack;
 
     while(ip < code.size()) {
         opcode = code[ip];
         if(trace) {
-            disassemble(opcode);
+            Disassemble(opcode);
         }
         ip++;
         switch (opcode)
@@ -172,25 +174,19 @@ void VM::cpu() {
         case IADD:
             b = stack[sp--];
             a = stack[sp--];
-            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
-                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
-            }
+            arithmetic_overflow = _exception_handler.CheckForArithmeticOverflow(a, b, opcode);
             stack[++sp] = a + b;
             break;
         case ISUB:
             b = stack[sp--];
             a = stack[sp--];
-            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
-                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
-            }
+            arithmetic_overflow = _exception_handler.CheckForArithmeticOverflow(a, b, opcode);
             stack[++sp] = a - b;
             break;
         case IMUL:
             b = stack[sp--];
             a = stack[sp--];
-            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
-                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
-            }
+            arithmetic_overflow = _exception_handler.CheckForArithmeticOverflow(a, b, opcode);
             stack[++sp] = a * b;
             break;
         case IDIV:
@@ -208,7 +204,7 @@ void VM::cpu() {
             --sp;
             break;
         case PRINT:
-            vm_print(stack[sp--]);
+            VMPrint(stack[sp--]);
             break;
         case HALT:
             return;

@@ -13,6 +13,8 @@ public:
         EXCEPTION_ARITHMETIC_OVERFLOW = 3,
     };
 
+    bool CheckForArithmeticOverflow(int32_t operand1, int32_t operand2, int32_t opcode);
+
     void Handler(uint32_t exception_code, int32_t opcode);
 
     void EH_exit();
