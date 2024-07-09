@@ -54,6 +54,7 @@ void VM::disassemble(int32_t opcode) {
     Instruction instr = opcodes[opcode];
     printf("%04d: %-16s", ip, instr.getMnemonic());
 
+    bool noops = false;
     //print operands
     int operandCount = instr.getOperand();
     switch (operandCount) {
@@ -66,10 +67,15 @@ void VM::disassemble(int32_t opcode) {
         case 3:
             printf(" %d, %d, %d", code[ip + 1], code[ip + 2], code[ip + 3]);
             break;
+        default:
+            noops = true;
+            break;
     }
+
 
     //print current stack
     printf("\t\t");
+    if(noops) printf("\t");
     if (sp == -1) {
         printf("[ ]\n");
     } else {
@@ -92,13 +98,12 @@ void VM::execVM(int32_t entrypoint) {
 
 void VM::cpu() {
     
-    int32_t operand;
-    int32_t opcode, a, b, addr, offset;
-
+    int32_t operand, opcode, a, b, addr, offset;
     int32_t first_arg;
-    //instruction-specific variables
-    int32_t nargs;
+    int32_t nargs, locals;
     ExceptionHandler _exception_handler;
+
+    std::vector<Context> call_stack;
 
     while(ip < code.size()) {
         opcode = code[ip];
@@ -125,21 +130,25 @@ void VM::cpu() {
         case CALL:
             addr = code[ip++];
             nargs = code[ip++];
-            ctx = Context(&ctx, ip, LOCALS_MAX_SIZE);
+            locals = code[ip++];
+            call_stack.push_back(ctx);
+            ctx = Context(&call_stack.back(), ip, LOCALS_MAX_SIZE);
             first_arg = sp - (nargs + 1);
-            for(int8_t i = 0; i < nargs; i++) {
-                ctx.locals[i] = stack[first_arg+i];
+            for (int i = 0; i < nargs; i++) {
+                ctx.getLocals()[i] = stack[first_arg + i];
             }
             sp -= nargs;
             ip = addr;
             break;
         case RET:
+            ctx = call_stack.back();
+            call_stack.pop_back();
             ip = ctx.getReturnIp();
-            ctx = *ctx.getPrev();
             break;
         case LOAD:
             offset = code[ip++];
-            stack[++sp] = stack[fp+offset];
+            ctx = Context(&ctx, ip, LOCALS_MAX_SIZE);
+            stack[++sp] = ctx.getLocals()[offset];
             break;
         case IEQ:
             b = stack[sp--];
@@ -157,6 +166,7 @@ void VM::cpu() {
         case BRT:
             addr = code[ip++];
             if (stack[sp--] == VM_TRUE) ip = addr;
+            break;
         case BRF:
             addr = code[ip++];
             if (stack[sp--] == VM_FALSE) ip = addr;

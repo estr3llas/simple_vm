@@ -3,7 +3,7 @@
 
 #include "./common.hpp"
 
-#define DATA_MAX_SIZE 1000
+#define DATA_MAX_SIZE 2000
 #define STACK_MAX_SIZE DATA_MAX_SIZE
 #define LOCALS_MAX_SIZE 256
 
