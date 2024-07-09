@@ -99,7 +99,7 @@
 	HALT                    // 30
 };
 
-const int FUNC_ADDR = 11;
+const int FUNC_ADDR = 10;
 std::vector<int> test_bc = {
     ICONST, 1,
     CALL, FUNC_ADDR, 1, 0,

@@ -139,7 +139,7 @@ void VM::cpu() {
             ip = addr;
             break;
         case RET:
-            ctx = call_stack.back();
+            //ctx = call_stack.back();
             call_stack.pop_back();
             ip = ctx.getReturnIp();
             break;
