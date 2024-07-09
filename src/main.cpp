@@ -99,13 +99,29 @@
 	HALT                    // 30
 };
 
+const int FUNC_ADDR = 11;
+std::vector<int> test_bc = {
+    ICONST, 1,
+    CALL, FUNC_ADDR, 1, 0,
+    ICONST, 2,
+    PRINT,
+    HALT,
+
+    ICONST, 3,
+    RET
+};
+
 int main (int argc, char** argv) {  
 
+    VM vm_test(test_bc, 0, 0);
+    vm_test.SetTrace(VM_TRUE);
+    vm_test.execVM();
+
+    /*
     VM vm_fact(factorial, 23, 0);
     vm_fact.SetTrace(VM_TRUE);
     vm_fact.execVM(23);
 
-    /*
     VM vm_loop(bc_loop, MAIN_ADDR, 0);
     vm_loop.set_bytecode_filename(__FILE__);
     vm_loop.SetTrace(vm_loop, VM_TRUE);

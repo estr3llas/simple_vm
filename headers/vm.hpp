@@ -65,9 +65,9 @@ private:
 public:
 
     VM();
-    VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize);
+    VM(const std::vector<int>& bytecode, int32_t entrypoint, size_t datasize);
 
-    void execVM(int32_t entrypoint);
+    void execVM();
     void cpu();
     void disassemble(int32_t opcode);
     void vm_print(int32_t arg);

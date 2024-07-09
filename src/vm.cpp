@@ -12,9 +12,9 @@ VM::VM() :
     ctx(Context(nullptr, 0, LOCALS_MAX_SIZE))
     {};
 
-VM::VM(const std::vector<int>& bytecode, int32_t addr_of_main, size_t datasize) :
+VM::VM(const std::vector<int>& bytecode, int32_t entrypoint, size_t datasize) :
     code(bytecode),
-    ip(addr_of_main),
+    ip(entrypoint),
     data(
         datasize 
             != DATA_MAX_SIZE 
@@ -72,7 +72,6 @@ void VM::disassemble(int32_t opcode) {
             break;
     }
 
-
     //print current stack
     printf("\t\t");
     if(noops) printf("\t");
@@ -90,8 +89,7 @@ void VM::disassemble(int32_t opcode) {
     }
 }
 
-void VM::execVM(int32_t entrypoint) {
-    ip = entrypoint;
+void VM::execVM() {
     ctx = Context();
     cpu();
 }
