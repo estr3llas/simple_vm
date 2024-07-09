@@ -172,16 +172,25 @@ void VM::cpu() {
         case IADD:
             b = stack[sp--];
             a = stack[sp--];
+            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
+                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
+            }
             stack[++sp] = a + b;
             break;
         case ISUB:
             b = stack[sp--];
             a = stack[sp--];
+            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
+                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
+            }
             stack[++sp] = a - b;
             break;
         case IMUL:
             b = stack[sp--];
             a = stack[sp--];
+            if((b > 0 && a > (INT32_MAX - b)) || (b < 0 && a < (INT32_MAX - b))) {
+                _exception_handler.Handler(_exception_handler.EXCEPTION_ARITHMETIC_OVERFLOW, opcode);
+            }
             stack[++sp] = a * b;
             break;
         case IDIV:

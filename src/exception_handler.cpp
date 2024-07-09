@@ -27,6 +27,9 @@ void ExceptionHandler::Handler(uint32_t exception_code, int32_t opcode) {
             fprintf(stderr, "\n[-] Line %d in %s:\n\t[-] EXCEPTION_UNKNOWN_OPCODE: Unknown opcode: %d\n", (get_ip()-1), filename.c_str(), opcode);
             EH_exit();
             break;
+        case EXCEPTION_ARITHMETIC_OVERFLOW:
+            fprintf(stderr, "\n[-] Line %d in %s:\n\t[-] EXCEPTION_ARITHMETIC_OVERFLOW: The maximum integer size is 32-bit.", (get_ip()-1), filename.c_str());
+            break;
         default:
             return;
     }

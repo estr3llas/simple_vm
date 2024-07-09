@@ -10,6 +10,7 @@ public:
     enum exception_codes {
         EXCEPTION_DIVIDE_BY_ZERO = 1,
         EXCEPTION_UNKNOWN_OPCODE = 2,
+        EXCEPTION_ARITHMETIC_OVERFLOW = 3,
     };
 
     void Handler(uint32_t exception_code, int32_t opcode);
