@@ -90,7 +90,7 @@ void VM::Disassemble(int32_t opcode) {
 }
 
 void VM::VMExec() {
-    ctx = Context();
+    //ctx = Context();
     Cpu();
 }
 

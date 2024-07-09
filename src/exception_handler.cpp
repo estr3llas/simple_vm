@@ -35,6 +35,7 @@ void ExceptionHandler::Handler(uint32_t exception_code, int32_t opcode) {
             break;
         case EXCEPTION_ARITHMETIC_OVERFLOW:
             fprintf(stderr, "\n[-] Line %d in %s:\n\t[-] EXCEPTION_ARITHMETIC_OVERFLOW: The maximum integer size is 32-bit.", (get_ip()-1), filename.c_str());
+            EH_exit();
             break;
         default:
             return;
