@@ -90,7 +90,7 @@ void VM::cpu() {
 
     int32_t first_arg;
     //instruction-specific variables
-    int32_t nargs, rvalue;
+    int32_t nargs;
     ExceptionHandler _exception_handler;
 
     while(ip < code.size()) {
