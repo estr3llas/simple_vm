@@ -52,28 +52,35 @@ void VM::disassemble(int32_t opcode) {
     if (ip >= code.size()) return;
 
     Instruction instr = opcodes[opcode];
-    printf("%04d: %s", ip, instr.getMnemonic());
+    printf("%04d: %-16s", ip, instr.getMnemonic());
 
     //print operands
-    if(instr.getOperand() == 1){
-        printf(" %d", code[ip+1]);
-    } else if(instr.getOperand() == 2) {
-        printf(" %d, %d", code[ip+1], code[ip+2]);
+    int operandCount = instr.getOperand();
+    switch (operandCount) {
+        case 1:
+            printf(" %d", code[ip + 1]);
+            break;
+        case 2:
+            printf(" %d, %d", code[ip + 1], code[ip + 2]);
+            break;
+        case 3:
+            printf(" %d, %d, %d", code[ip + 1], code[ip + 2], code[ip + 3]);
+            break;
     }
 
     //print current stack
+    printf("\t\t");
     if (sp == -1) {
-        printf("\t\t[ ]\n");
+        printf("[ ]\n");
     } else {
-        printf("\t\t");
+        printf("[");
         for (int i = 0; i <= sp; ++i) {
-            printf("[%d]", stack[i]);
-            if (i < sp) {
-                printf(", ");
-            }
+        printf("%d", stack[i]);
+        if (i < sp) {
+            printf(", ");
         }
-
-        printf("\n");
+        }
+        printf("]\n");
     }
 }
 

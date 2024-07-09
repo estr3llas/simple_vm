@@ -3,8 +3,6 @@
 
 #define MAIN_ADDR 0
 
-int main (int argc, char** argv) {  
-    
     std::vector<int> bc_loop = {
 	// .GLOBALS 2; N, I
 	// N = 10						ADDRESS
@@ -100,6 +98,8 @@ int main (int argc, char** argv) {
 	PRINT,                  // 29
 	HALT                    // 30
 };
+
+int main (int argc, char** argv) {  
 
     VM vm_fact(factorial, 23, 0);
     vm_fact.SetTrace(VM_TRUE);
