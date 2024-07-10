@@ -24,7 +24,9 @@ enum Bytecode {
     HALT = 17,
     CALL = 18,
     RET = 19,
-    NEG = 20
+    NEG = 20,
+    INC = 21,
+    DEC = 22
 };
 
 class Instruction {
@@ -80,7 +82,9 @@ namespace {
         Instruction("HALT"),
         Instruction("CALL", 3),
         Instruction("RET"),
-        Instruction("NEG")
+        Instruction("NEG"),
+        Instruction("INC"),
+        Instruction("DEC")
     };
 }
 

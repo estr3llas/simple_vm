@@ -104,7 +104,7 @@ std::vector<int> test_bc = {
     ICONST, 1,
     CALL, FUNC_ADDR, 1, 0,
     ICONST, 2,
-    NEG,
+    INC,
     PRINT,
     HALT,
 

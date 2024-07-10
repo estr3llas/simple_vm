@@ -201,6 +201,16 @@ void VM::Cpu() {
             a = stack[sp--];
             stack[++sp] = (-a);
             break;
+        case INC:
+            a = stack[sp--];
+            a = a + 1;
+            stack[++sp] = a;
+            break;
+        case DEC:
+            a = stack[sp--];
+            a = a - 1;
+            stack[++sp] = a;
+            break;
         case ICONST:
             stack[++sp] = code[ip++];
             break;
