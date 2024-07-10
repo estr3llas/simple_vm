@@ -113,6 +113,9 @@ void VM::Cpu() {
         }
         ip++;
         switch (opcode) {
+        case NOP:
+            // just for padding
+            break;
         case GLOAD:
             addr = code[ip];
             ip++;

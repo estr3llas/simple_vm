@@ -26,7 +26,8 @@ enum Bytecode {
     RET = 19,
     NEG = 20,
     INC = 21,
-    DEC = 22
+    DEC = 22,
+    NOP = 23
 };
 
 class Instruction {
@@ -84,7 +85,8 @@ namespace {
         Instruction("RET"),
         Instruction("NEG"),
         Instruction("INC"),
-        Instruction("DEC")
+        Instruction("DEC"),
+        Instruction("NOP")
     };
 }
 
