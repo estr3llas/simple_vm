@@ -112,8 +112,7 @@ void VM::Cpu() {
             Disassemble(opcode);
         }
         ip++;
-        switch (opcode)
-        {
+        switch (opcode) {
         case GLOAD:
             addr = code[ip];
             ip++;
@@ -197,6 +196,10 @@ void VM::Cpu() {
                 _exception_handler.Handler(_exception_handler.EXCEPTION_DIVIDE_BY_ZERO, opcode);
             }
             stack[++sp] = a / b;
+            break;
+        case NEG:
+            a = stack[sp--];
+            stack[++sp] = (-a);
             break;
         case ICONST:
             stack[++sp] = code[ip++];

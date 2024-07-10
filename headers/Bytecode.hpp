@@ -23,7 +23,8 @@ enum Bytecode {
     POP = 16,
     HALT = 17,
     CALL = 18,
-    RET = 19
+    RET = 19,
+    NEG = 20
 };
 
 class Instruction {
@@ -78,7 +79,8 @@ namespace {
         Instruction("POP"),
         Instruction("HALT"),
         Instruction("CALL", 3),
-        Instruction("RET")
+        Instruction("RET"),
+        Instruction("NEG")
     };
 }
 
