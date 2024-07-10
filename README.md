@@ -18,8 +18,6 @@ The final program (`.exe`) will be located in `/bin/vm.exe`
 
 # TODO
 
-INC, DEC
-
 More examples
 
 Bitwise operations
