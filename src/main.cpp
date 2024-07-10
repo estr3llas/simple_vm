@@ -117,7 +117,7 @@ int main (int argc, char** argv) {
     vm_test.SetTrace(VM_TRUE);
     VMReturn ret = vm_test.VMExec();
 
-    printf("VMReturn: %d", ret);
+    printf("\n[!] VMReturn: %d", ret);
 
     /*
     VM vm_fact(factorial, 23, 0);

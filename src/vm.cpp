@@ -3,8 +3,6 @@
 #include "../headers/Bytecode.hpp"
 #include "../headers/exception_handler.hpp"
 
-int_fast32_t global_mem[DATA_MAX_SIZE];
-
 VM::VM() :
     ip(VM_ZERO),
     sp(sp),
@@ -94,6 +92,8 @@ VMReturn VM::VMExec() {
     Cpu();
     return STATUS_EXECUTION_OK;
 }
+
+int_fast32_t global_mem[DATA_MAX_SIZE];
 
 void VM::Cpu() {
     
