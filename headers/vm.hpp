@@ -46,6 +46,12 @@ public:
     }
 };
 
+typedef enum {
+    STATUS_EXECUTION_OK = 0,
+    STATUS_COMPILE_ERROR = 1,
+    STATUS_RUNTIME_ERROR = 2,
+} VMReturn;
+
 class VM {
 private:
     std::vector<int32_t> data;
@@ -67,7 +73,7 @@ public:
     VM();
     VM(const std::vector<int>& bytecode, int32_t entrypoint, size_t datasize);
 
-    void VMExec();
+    VMReturn VMExec();
     void Cpu();
     void Disassemble(int32_t opcode);
     void VMPrint(int32_t arg);

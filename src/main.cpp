@@ -115,7 +115,9 @@ int main (int argc, char** argv) {
 
     VM vm_test(test_bc, 0, 0);
     vm_test.SetTrace(VM_TRUE);
-    vm_test.VMExec();
+    VMReturn ret = vm_test.VMExec();
+
+    printf("VMReturn: %d", ret);
 
     /*
     VM vm_fact(factorial, 23, 0);
@@ -139,4 +141,6 @@ int main (int argc, char** argv) {
     vm_math.SetTrace(vm_math, VM_TRUE);
     vm_math.execVM(MAIN_ADDR);
     */
+
+   return 0;
 }

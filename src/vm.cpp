@@ -89,9 +89,10 @@ void VM::Disassemble(int32_t opcode) {
     }
 }
 
-void VM::VMExec() {
+VMReturn VM::VMExec() {
     //ctx = Context();
     Cpu();
+    return STATUS_EXECUTION_OK;
 }
 
 void VM::Cpu() {
