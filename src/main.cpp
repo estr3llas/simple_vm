@@ -1,5 +1,9 @@
+#include <fstream>
+
 #include "../headers/Bytecode.hpp"
 #include "../headers/vm.hpp"
+
+#include "../lib/boost/include/boost/program_options.hpp"
 
 #define MAIN_ADDR 0
 #define VM_VERSION "0.0.1"
@@ -119,13 +123,38 @@ std::vector<int> test_bc = {
     RET
 };
 
+std::vector<int32_t> ReadBytecode(const char* bytecode_filename) {
+    std::ifstream ifs;
+    ifs.open(bytecode_filename, (std::ios::binary | std::ios::in));
+
+    if (!ifs) {
+        std::cerr << "Failed to open the file.\n";
+        return {};
+    }
+
+    std::vector<int32_t> data;
+
+    uint32_t value = 0;
+    while (ifs.read(reinterpret_cast<char*>(&value), sizeof(value))) {
+        data.push_back(value);
+    }
+
+    ifs.close();
+
+    return data;
+}
+
 int main (int argc, char** argv) {
 
     if(argc < 2) {
         printf(USAGE, VM_VERSION);
-    };  
+    };
 
-    VM vm_test(test_bc, 0, 0);
+    std::vector<int32_t> bytecode_from_file = ReadBytecode(argv[2]);  
+
+    printf("%s", argv[2]);
+
+    VM vm_test(bytecode_from_file, 0, 0);
     vm_test.SetTrace(VM_TRUE);
     VMReturn ret = vm_test.VMExec();
 
