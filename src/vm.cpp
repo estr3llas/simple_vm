@@ -96,13 +96,17 @@ VMReturn VM::VMExec() {
 int_fast32_t global_mem[DATA_MAX_SIZE];
 
 void VM::Cpu() {
+
+    ExceptionHandler _exception_handler;
+    bool arithmetic_overflow;
+
+    if (ip >= code.size()) {
+        _exception_handler.Handler(_exception_handler.EXCEPTION_IP_OVERFLOW, 0);
+    }
     
     int32_t operand, opcode, a, b, addr, offset;
     int32_t first_arg;
     int32_t nargs, locals;
-    ExceptionHandler _exception_handler;
-
-    bool arithmetic_overflow;
 
     std::vector<Context> call_stack;
 

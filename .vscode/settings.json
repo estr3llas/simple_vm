@@ -75,6 +75,21 @@
         "string_view": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "csignal": "cpp",
+        "*.ipp": "cpp",
+        "strstream": "cpp",
+        "bitset": "cpp",
+        "cfenv": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "unordered_set": "cpp",
+        "any": "cpp",
+        "rope": "cpp",
+        "future": "cpp",
+        "shared_mutex": "cpp",
+        "typeindex": "cpp"
     }
 }

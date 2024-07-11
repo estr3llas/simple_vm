@@ -3,146 +3,16 @@
 #include "../headers/Bytecode.hpp"
 #include "../headers/vm.hpp"
 
-#include "../lib/boost/include/boost/program_options.hpp"
+#include "../lib/include/boost/program_options.hpp"
 
 #define MAIN_ADDR 0
 #define VM_VERSION "0.0.1"
 #define USAGE " Estrellas's simple vm.\n\n"                 \
-              " Version: %s\n\n"                            \
+              " Version: 0.0.1\n\n"                            \
               " [+] Usage: vm.exe -f [bytecode.txt]\n\n"    \
               " Contact: https://github.com/estr3llas\n"
 
-    std::vector<int> bc_loop = {
-	// .GLOBALS 2; N, I
-	// N = 10						ADDRESS
-			ICONST, 10,				// 0
-			GSTORE, 0,				// 2
-	// I = 0
-			ICONST, 0,				// 4
-			GSTORE, 1,				// 6
-	// WHILE I<N:
-			GLOAD, 1,				// 8
-			GLOAD, 0,				// 10
-			ILT,					// 12
-			BRF, 24,				// 13
-	// I = I + 1
-			GLOAD, 1,				// 15
-			ICONST, 1,				// 17
-			IADD,					// 19
-			GSTORE, 1,				// 20
-			BR, 8,					// 22
-	// DONE (24):
-			HALT					// 24
-    };
-
-    std::vector<int> bc_exception_divide_by_zero = {
-    // TRIGGER EXCEPTION
-    // STORE 1 ON GLOBAL MEMORY    
-        ICONST, 1,                  // 0
-        GSTORE, 0,                  // 2
-    // STORE 0 ON GLOBAL MEMORY
-        ICONST, 0,                  // 4
-        GSTORE, 1,                  // 6
-    // LOAD BOTH ON STACK
-        GLOAD, 0,                   // 8
-        GLOAD, 1,                   // 10
-    // TRY TO DIVIDE 1 BY 0
-        IDIV,                       // 11
-    // CAUSES EXCEPTION
-        PRINT,                      // 12
-        HALT                        // 13
-    };
-
-    std::vector<int> bc_math = {
-    // MATH DEMONSTRATION
-    // PUSH 1, 2
-        ICONST, 1,                  // 0
-        ICONST, 2,                  // 2
-    // 1 + 2 = 3
-        IADD,                       // 3
-    // PUSH 1
-        ICONST, 1,                  // 4
-    // 3 - 1 = 2
-        ISUB,                       // 6
-    // PUSH 2
-        ICONST, 2,                  // 7
-    // 2 * 2 = 4
-        IMUL,                       // 9
-    // PUSH 4
-        ICONST, 4,                  // 10
-    // 4 * 4 = 16
-        IMUL,                       // 12
-    // PUSH 2
-        ICONST, 2,                  // 13
-    // 16 / 2 = 8
-        IDIV,                       // 15
-    // PRINT(8)
-        PRINT,                      // 16
-        HALT                        // 17
-    };
-
-    const int FACTORIAL_ADDRESS = 0;
-    std::vector<int32_t> factorial = {
-//.def factorial: ARGS=1, LOCALS=0	ADDRESS
-//	IF N < 2 RETURN 1
-	LOAD, 0,                // 0
-	ICONST, 2,              // 2
-	ILT,                    // 4
-	BRF, 10,                // 5
-	ICONST, 1,              // 7
-	RET,                    // 9
-//CONT:
-//	RETURN N * FACT(N-1)
-	LOAD, 0,                // 10
-	LOAD, 0,                // 12
-	ICONST, 1,              // 14
-	ISUB,                   // 16
-	CALL, FACTORIAL_ADDRESS, 1, 0,    // 17
-	IMUL,                   // 21
-	RET,                    // 22
-//.DEF MAIN: ARGS=0, LOCALS=0
-// PRINT FACT(1)
-	ICONST, 5,              // 23    <-- MAIN METHOD!
-	CALL, FACTORIAL_ADDRESS, 1, 0,    // 25
-	PRINT,                  // 29
-	HALT                    // 30
-};
-
-const int FUNC_ADDR = 12;
-std::vector<int> test_bc = {
-    ICONST, 1,
-    CALL, FUNC_ADDR, 1, 0,
-    ICONST, 2,
-    DEC,
-    NOP,
-    PRINT,
-    HALT,
-
-    ICONST, 3,
-    POP,
-    RET
-};
-
-std::vector<int32_t> ReadBytecode(const char* bytecode_filename) {
-    std::ifstream ifs;
-    ifs.open(bytecode_filename, (std::ios::binary | std::ios::in));
-
-    if (!ifs) {
-        std::cerr << "Failed to open the file.\n";
-        return {};
-    }
-
-    std::vector<int32_t> data;
-
-    uint32_t value = 0;
-    while (ifs.read(reinterpret_cast<char*>(&value), sizeof(value))) {
-        data.push_back(value);
-    }
-
-    ifs.close();
-
-    return data;
-}
+namespace po = boost::program_options;
 
 int main (int argc, char** argv) {
 
@@ -150,17 +20,37 @@ int main (int argc, char** argv) {
         printf(USAGE, VM_VERSION);
     };
 
-    std::vector<int32_t> bytecode_from_file = ReadBytecode(argv[2]);  
+    po::options_description desc("Allowed Options");
+    desc.add_options()
+        ("-h", USAGE)
+        ("-f", po::value<std::string>(), "specify the bytecode filename")
+        ;
+
+    po::variables_map var_map;
+    po::store(po::parse_command_line(argc, argv, desc), var_map);
+    po::notify(var_map);
+
+    if(var_map.count("-h")) {
+        std::cout << desc << std::endl;
+        return 0;
+    }
+
+    if(var_map.count("-f")) {
+        std::cout << var_map["-f"].as<std::string>() << std::endl;
+    } else {
+        std::cout << "No filename!";
+    }
 
     printf("%s", argv[2]);
 
+    /*
     VM vm_test(bytecode_from_file, 0, 0);
     vm_test.SetTrace(VM_TRUE);
     VMReturn ret = vm_test.VMExec();
 
     printf("\n[!] VMReturn: %d", ret);
 
-    /*
+    
     VM vm_fact(factorial, 23, 0);
     vm_fact.SetTrace(VM_TRUE);
     vm_fact.execVM(23);

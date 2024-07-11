@@ -37,6 +37,10 @@ void ExceptionHandler::Handler(uint32_t exception_code, int32_t opcode) {
             fprintf(stderr, "\n[-] Line %d in %s:\n\t[-] EXCEPTION_ARITHMETIC_OVERFLOW: The maximum integer size is 32-bit.", (get_ip()-1), filename.c_str());
             EH_exit();
             break;
+        case EXCEPTION_IP_OVERFLOW:
+            fprintf(stderr, "\n[-] Line %d in %s:\n\t[-] EXCEPTION_IP_OVERFLOW: The Instruction pointer is bigger than the bytecode boundaries.", (get_ip()-1), filename.c_str());
+            EH_exit();
+            break;
         default:
             return;
     }
