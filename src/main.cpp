@@ -2,6 +2,11 @@
 #include "../headers/vm.hpp"
 
 #define MAIN_ADDR 0
+#define VM_VERSION "0.0.1"
+#define USAGE " Estrellas's simple vm.\n\n"                 \
+              " Version: %s\n\n"                            \
+              " [+] Usage: vm.exe -f [bytecode.txt]\n\n"    \
+              " Contact: https://github.com/estr3llas\n"
 
     std::vector<int> bc_loop = {
 	// .GLOBALS 2; N, I
@@ -99,12 +104,13 @@
 	HALT                    // 30
 };
 
-const int FUNC_ADDR = 11;
+const int FUNC_ADDR = 12;
 std::vector<int> test_bc = {
     ICONST, 1,
     CALL, FUNC_ADDR, 1, 0,
     ICONST, 2,
     DEC,
+    NOP,
     PRINT,
     HALT,
 
@@ -113,7 +119,11 @@ std::vector<int> test_bc = {
     RET
 };
 
-int main (int argc, char** argv) {  
+int main (int argc, char** argv) {
+
+    if(argc < 2) {
+        printf(USAGE, VM_VERSION);
+    };  
 
     VM vm_test(test_bc, 0, 0);
     vm_test.SetTrace(VM_TRUE);
