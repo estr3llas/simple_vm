@@ -100,7 +100,7 @@ void VM::Cpu() {
     ExceptionHandler _exception_handler;
     bool arithmetic_overflow;
 
-    if (ip >= code.size()) {
+    if (ip > code.size()) {
         _exception_handler.Handler(_exception_handler.EXCEPTION_IP_OVERFLOW, 0);
     }
     
