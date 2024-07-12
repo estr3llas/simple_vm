@@ -20,7 +20,7 @@ int main (int argc, char** argv) {
         printf(USAGE, VM_VERSION);
     };
 
-    VM vm_test(Examples::test_bc, 0, 0);
+    VM vm_test(Examples::test, Examples::TEST_ENTRYPOINT, 0);
     vm_test.SetTrace(VM_TRUE);
     VMReturn ret = vm_test.VMExec();
 
