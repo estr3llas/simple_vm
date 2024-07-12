@@ -18,8 +18,8 @@ The final program (`.exe`) will be located in `/bin/vm.exe`
 
 # TODO
 
-More examples
+file reading (prolly need a frontend in order to add metadata to instructions)
 
-Bitwise operations
+use boost lib to handle program options
 
-file reading
+fix ctx usage
