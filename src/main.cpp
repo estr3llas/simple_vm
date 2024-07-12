@@ -11,7 +11,7 @@
 #define USAGE " Estrellas's simple vm.\n"                           \
               " Version: %s\n\n"                                    \
               " [+] Usage: vm.exe <bytecode>\n\n"                   \
-              " Contact: https://github.com/estr3llas\n"
+              " Contact: https://github.com/estr3llas\n\n"
 
 int main (int argc, char** argv) {
 
