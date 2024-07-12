@@ -19,9 +19,9 @@ int main (int argc, char** argv) {
         printf(USAGE, VM_VERSION);
     };
 
-    VM vm_test(Examples::test, Examples::TEST_ENTRYPOINT, 0);
-    vm_test.SetTrace(VM_TRUE);
-    VMReturn ret = vm_test.VMExec();
+    VM vm (Examples::test, Examples::TEST_ENTRYPOINT, 0);
+    vm.SetTrace(VM_TRUE);
+    VMReturn ret = vm.VMExec();
 
     printf("\n[!] VMReturn: %d", ret);
 
