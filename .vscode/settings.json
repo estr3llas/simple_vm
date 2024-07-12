@@ -90,6 +90,11 @@
         "rope": "cpp",
         "future": "cpp",
         "shared_mutex": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "csetjmp": "cpp",
+        "regex": "cpp",
+        "slist": "cpp",
+        "scoped_allocator": "cpp",
+        "valarray": "cpp"
     }
 }

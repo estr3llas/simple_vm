@@ -1,18 +1,18 @@
-#include <fstream>
 
+#include "../headers/common.hpp"
 #include "../headers/Bytecode.hpp"
 #include "../headers/vm.hpp"
+#include "../headers/Examples.hpp"
 
-#include "../lib/include/boost/program_options.hpp"
+//#include "../lib/include/boost/program_options.hpp"
 
 #define MAIN_ADDR 0
 #define VM_VERSION "0.0.1"
-#define USAGE " Estrellas's simple vm.\n\n"                 \
-              " Version: 0.0.1\n\n"                            \
-              " [+] Usage: vm.exe -f [bytecode.txt]\n\n"    \
+#define USAGE " Estrellas's simple vm.\n\n"                     \
+              " Version: 0.0.1\n\n"                             \
+              " [+] Usage: vm.exe -f [bytecode.txt]\n\n"        \
               " Contact: https://github.com/estr3llas\n"
 
-namespace po = boost::program_options;
 
 int main (int argc, char** argv) {
 
@@ -20,37 +20,14 @@ int main (int argc, char** argv) {
         printf(USAGE, VM_VERSION);
     };
 
-    po::options_description desc("Allowed Options");
-    desc.add_options()
-        ("-h", USAGE)
-        ("-f", po::value<std::string>(), "specify the bytecode filename")
-        ;
 
-    po::variables_map var_map;
-    po::store(po::parse_command_line(argc, argv, desc), var_map);
-    po::notify(var_map);
-
-    if(var_map.count("-h")) {
-        std::cout << desc << std::endl;
-        return 0;
-    }
-
-    if(var_map.count("-f")) {
-        std::cout << var_map["-f"].as<std::string>() << std::endl;
-    } else {
-        std::cout << "No filename!";
-    }
-
-    printf("%s", argv[2]);
-
-    /*
-    VM vm_test(bytecode_from_file, 0, 0);
+    VM vm_test(Examples::test_bc, 0, 0);
     vm_test.SetTrace(VM_TRUE);
     VMReturn ret = vm_test.VMExec();
 
     printf("\n[!] VMReturn: %d", ret);
 
-    
+    /*
     VM vm_fact(factorial, 23, 0);
     vm_fact.SetTrace(VM_TRUE);
     vm_fact.execVM(23);
