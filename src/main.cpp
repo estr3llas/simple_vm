@@ -13,7 +13,6 @@
               " [+] Usage: vm.exe <bytecode.txt>\n\n"           \
               " Contact: https://github.com/estr3llas\n"
 
-
 int main (int argc, char** argv) {
 
     if(argc < 2) {
@@ -25,29 +24,6 @@ int main (int argc, char** argv) {
     VMReturn ret = vm_test.VMExec();
 
     printf("\n[!] VMReturn: %d", ret);
-
-    /*
-    VM vm_fact(factorial, 23, 0);
-    vm_fact.SetTrace(VM_TRUE);
-    vm_fact.execVM(23);
-
-    VM vm_loop(bc_loop, MAIN_ADDR, 0);
-    vm_loop.set_bytecode_filename(__FILE__);
-    vm_loop.SetTrace(vm_loop, VM_TRUE);
-    vm_loop.cpu();
-
-    
-    VM vm_exception(bc_exception_divide_by_zero, MAIN_ADDR, 0);
-    vm_exception.set_bytecode_filename(__FILE__);
-    vm_exception.SetTrace(vm_exception, VM_TRUE);
-    vm_exception.execVM(MAIN_ADDR);
-    
-    
-    VM vm_math(bc_math, 0, 0);
-    vm_math.set_bytecode_filename(__FILE__);
-    vm_math.SetTrace(vm_math, VM_TRUE);
-    vm_math.execVM(MAIN_ADDR);
-    */
 
    return 0;
 }
