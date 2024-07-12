@@ -5,7 +5,7 @@
 
 VM::VM() :
     ip(VM_ZERO),
-    sp(sp),
+    sp(),
     fp(VM_ZERO),
     ctx(Context(nullptr, 0, LOCALS_MAX_SIZE))
     {};
@@ -36,9 +36,9 @@ uint32_t VM::get_ip() {
 }
 
 void VM::SetBcFilename(const std::string &filename) {
-    if(filename.empty()) bc_filename = nullptr;
-
-    bc_filename = filename;
+    filename.empty()
+    ? bc_filename = nullptr
+    : bc_filename = filename;
 }
 
 const std::string& VM::GetBcFilename() {
