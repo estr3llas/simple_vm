@@ -1,3 +1,11 @@
+# README
+
+As I moved to CLion, ill be finishing the work on this vm in another repo.
+
+The repo in question is: https://github.com/estr3llas/vm
+
+Thanks.
+
 # simple_vm
 
 A simple bytecode Virtual Machine.
